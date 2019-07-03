@@ -17,7 +17,7 @@ def open_connection(host=None, port=None, *,
     return LeapReader(connection[0]), LeapWriter(connection[1])
 
 
-class LeapReader(object):
+class LeapReader():
     """A wrapper for reading the LEAP protocol."""
 
     def __init__(self, reader):
@@ -38,11 +38,11 @@ class LeapReader(object):
         If invaid data is received, raise ValueError.
         """
         received = yield from self._reader.readline()
-        
+
         if received == b'':
             return None
         _LOG.debug('received %s', received)
-        
+
         try:
             return json.loads(received.decode('UTF-8'))
         except ValueError as err:
@@ -55,7 +55,7 @@ class LeapReader(object):
         return self._reader.at_eof()
 
 
-class LeapWriter(object):
+class LeapWriter():
     """A wrapper for writing the LEAP protocol."""
 
     def __init__(self, writer):
